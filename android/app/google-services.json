@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "481454652572",
+    "project_id": "cab-express-app",
+    "storage_bucket": "cab-express-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481454652572:android:9d49a4a5a1c05d6131c159",
+        "android_client_info": {
+          "package_name": "com.example.cab_express"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6o0diGPFNohagHRhbiJOqQuzBMxdKLDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

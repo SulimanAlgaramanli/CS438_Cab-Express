@@ -6,7 +6,12 @@ class ServicesType {
   final Gender? gender;
   final bool? isSharedTrip;
 
-  ServicesType({this.id, this.numberOfPassengers, this.gender, this.isSharedTrip});
+  ServicesType({
+      this.id, 
+      this.numberOfPassengers, 
+      this.gender, 
+      this.isSharedTrip
+    });
 
   @override
   bool operator ==(Object other) =>

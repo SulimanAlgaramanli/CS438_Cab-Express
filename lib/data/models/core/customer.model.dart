@@ -21,6 +21,7 @@ class CustomerModel extends UserModel {
           firstName == other.firstName &&
           lastName == other.lastName &&
           phoneNumber == other.phoneNumber ;
+          
   @override
   int get hashCode =>
       id.hashCode ^

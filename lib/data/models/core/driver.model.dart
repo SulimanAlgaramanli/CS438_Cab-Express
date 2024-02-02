@@ -1,7 +1,9 @@
+import 'package:cab_express/data/models/app/car.model.dart';
 import 'package:cab_express/data/models/core/user.model.dart';
-import 'package:cab_express/utils/equality.util.dart';
+import 'package:flutter/foundation.dart';
 
 class DriverModel extends UserModel {
+  final List<CarModel>? cars;
 
   const DriverModel({
     super.id,
@@ -9,6 +11,8 @@ class DriverModel extends UserModel {
     super.firstName,
     super.lastName,
     super.phoneNumber,
+    super.userType,
+    this.cars,
   });
 
   @override
@@ -20,7 +24,9 @@ class DriverModel extends UserModel {
           email == other.email &&
           firstName == other.firstName &&
           lastName == other.lastName &&
-          phoneNumber == other.phoneNumber ;
+          phoneNumber == other.phoneNumber &&
+          userType == other.userType &&
+          listEquals(cars, other.cars);
 
   @override
   int get hashCode =>
@@ -28,5 +34,7 @@ class DriverModel extends UserModel {
       email.hashCode ^
       firstName.hashCode ^
       lastName.hashCode ^
-      phoneNumber.hashCode ;
+      phoneNumber.hashCode ^
+      userType.hashCode ^
+      cars.hashCode;
 }

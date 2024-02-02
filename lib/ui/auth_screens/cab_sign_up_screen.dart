@@ -1,4 +1,5 @@
 import 'package:cab_express/global/cab_colors.dart';
+import 'package:cab_express/services/firebase_auth_service/logic.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get_utils/get_utils.dart';
@@ -13,6 +14,7 @@ class CabSignUpScreen extends StatefulWidget {
 }
 
 class _CabSignUpScreenState extends State<CabSignUpScreen> {
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;

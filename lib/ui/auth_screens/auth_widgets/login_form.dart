@@ -85,6 +85,7 @@ class AuthLoginForm extends StatelessWidget {
               QuestionButtonWidget(
                 onPressed: () {
                   // logic.clearAuthStates();
+                  Get.offAndToNamed(CabAppRoutes.cabSignupScreen);
                 },
                 question: 'You do not have account?',
                 labelBtn: 'Signup',

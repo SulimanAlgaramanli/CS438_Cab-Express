@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cab_express/home_screens/cab_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +11,7 @@ class DashboardControllerState {
   set navScreenIndex(int value) => _navScreenIndex.value = value;
 
   final screens = const <Widget>[
-    Scaffold()
+    CabHomeScreen(),
   ];
 
   int get screensLength => screens.length;

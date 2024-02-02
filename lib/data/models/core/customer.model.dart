@@ -1,7 +1,9 @@
+import 'package:cab_express/data/models/app/location.model.dart';
 import 'package:cab_express/data/models/core/user.model.dart';
-import 'package:cab_express/utils/equality.util.dart';
+import 'package:flutter/foundation.dart';
 
 class CustomerModel extends UserModel {
+  final List<LocationModel>? locations;
 
   const CustomerModel({
     super.id,
@@ -9,6 +11,8 @@ class CustomerModel extends UserModel {
     super.firstName,
     super.lastName,
     super.phoneNumber,
+    super.userType,
+    this.locations,
   });
 
   @override
@@ -20,7 +24,10 @@ class CustomerModel extends UserModel {
           email == other.email &&
           firstName == other.firstName &&
           lastName == other.lastName &&
-          phoneNumber == other.phoneNumber ;
+          phoneNumber == other.phoneNumber &&
+          userType == other.userType &&
+          listEquals(locations, other.locations);
+
           
   @override
   int get hashCode =>
@@ -28,5 +35,7 @@ class CustomerModel extends UserModel {
       email.hashCode ^
       firstName.hashCode ^
       lastName.hashCode ^
-      phoneNumber.hashCode;
+      phoneNumber.hashCode ^
+      userType.hashCode ^
+      locations.hashCode;
 }

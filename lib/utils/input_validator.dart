@@ -34,12 +34,21 @@ abstract class InputValidator {
   //   }
   //   return null;
   // }
+
   static String? isPhoneNumber(String? value) {
     final empty = isRequired('Phone number', value);
     if (empty != null) {
       return empty;
     } else if (!_phoneNumberRegex.hasMatch(value!.trim())) {
       return 'Write valid phone number.';
+    }
+    return null;
+  }
+
+  static String? isEmail(String? value) {
+    final empty = isRequired('Phone number', value);
+    if (empty != null) {
+      return empty;
     }
     return null;
   }

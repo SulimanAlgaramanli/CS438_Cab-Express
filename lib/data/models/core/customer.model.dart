@@ -1,5 +1,6 @@
 import 'package:cab_express/data/models/app/location.model.dart';
 import 'package:cab_express/data/models/core/user.model.dart';
+import 'package:cab_express/utils/user_type.enum.dart';
 import 'package:flutter/foundation.dart';
 
 class CustomerModel extends UserModel {
@@ -28,7 +29,6 @@ class CustomerModel extends UserModel {
           userType == other.userType &&
           listEquals(locations, other.locations);
 
-          
   @override
   int get hashCode =>
       id.hashCode ^
@@ -38,4 +38,18 @@ class CustomerModel extends UserModel {
       phoneNumber.hashCode ^
       userType.hashCode ^
       locations.hashCode;
+
+  factory CustomerModel.fromMap(Map<String, dynamic>? map, String? id) {
+    return CustomerModel(
+      locations: List.of(map?['locations']??[])
+          .map((e) => LocationModel.fromMap(e))
+          .toList(),
+      id: id,
+      email: map?['email'] as String,
+      firstName: map?['firstName'] as String,
+      lastName: map?['lastName'] as String,
+      phoneNumber: map?['phoneNumber'] as String,
+      userType: UserType.values[map?['userType'] ?? 0],
+    );
+  }
 }

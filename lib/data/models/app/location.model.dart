@@ -20,4 +20,20 @@ class LocationModel{
 
   @override
   int get hashCode => id.hashCode ^ long.hashCode ^ lat.hashCode;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': this.id,
+      'long': this.long,
+      'lat': this.lat,
+    };
+  }
+
+  factory LocationModel.fromMap(Map<String, dynamic> map) {
+    return LocationModel(
+      id: map['id'] as int,
+      long: map['long'] as double,
+      lat: map['lat'] as double,
+    );
+  }
 }

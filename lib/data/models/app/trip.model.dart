@@ -1,4 +1,5 @@
 import 'package:cab_express/data/models/app/location.model.dart';
+import 'package:cab_express/data/models/app/rate.model.dart';
 import 'package:cab_express/data/models/app/services_type.model.dart';
 
 class TripModel {
@@ -11,7 +12,7 @@ class TripModel {
   final double? cost;
   final DateTime? timeTaken;
   final LocationModel? driverLocation;
-
+  final RateModel? rate;
   TripModel(
       {this.id,
       this.customerId,
@@ -21,6 +22,7 @@ class TripModel {
       this.servicesType,
       this.cost,
       this.timeTaken,
+      this.rate,
       this.driverLocation});
 
   @override
@@ -36,6 +38,7 @@ class TripModel {
           servicesType == other.servicesType &&
           cost == other.cost &&
           timeTaken == other.timeTaken &&
+          rate == other.rate &&
           driverLocation == other.driverLocation;
 
   @override
@@ -48,5 +51,6 @@ class TripModel {
       servicesType.hashCode ^
       cost.hashCode ^
       timeTaken.hashCode ^
+      rate.hashCode ^
       driverLocation.hashCode;
 }

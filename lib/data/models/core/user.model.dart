@@ -17,4 +17,6 @@ abstract class UserModel {
     this.userType,
   });
 
+
+
 }

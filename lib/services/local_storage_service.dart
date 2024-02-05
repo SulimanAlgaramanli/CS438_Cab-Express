@@ -1,14 +1,25 @@
+import 'package:cab_express/data/models/core/customer.model.dart';
+import 'package:cab_express/data/models/core/driver.model.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class LocalStorageService extends GetxService {
-
   static LocalStorageService get instance => Get.find();
 
+  final _customer = const CustomerModel().obs;
 
+  CustomerModel get customer => _customer.value;
 
-
-
-  Future<void> init() async {
+  set customer(CustomerModel value) {
+    _customer.value = value;
   }
+
+  final _driver = const DriverModel().obs;
+
+  DriverModel get driver => _driver.value;
+
+  set driver(DriverModel value) {
+    _driver.value = value;
+  }
+
+  Future<void> init() async {}
 }

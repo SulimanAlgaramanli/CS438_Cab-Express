@@ -37,4 +37,6 @@ class DriverModel extends UserModel {
       phoneNumber.hashCode ^
       userType.hashCode ^
       cars.hashCode;
+
+//
 }

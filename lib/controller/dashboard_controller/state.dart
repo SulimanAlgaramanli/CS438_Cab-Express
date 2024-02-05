@@ -1,4 +1,4 @@
-import 'package:cab_express/home_screens/cab_home_screen.dart';
+import 'package:cab_express/ui/home_screens/cab_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

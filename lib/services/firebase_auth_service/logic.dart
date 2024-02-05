@@ -57,7 +57,45 @@ class FirebaseAuthServiceLogic extends GetxService {
   }
 
   Future<void> loginWithEmailAndPassword(UserAuthModel userAuth) async {
-    // TODO: implement loginWithEmailAndPassword
+    if (authStates.isLoading) return;
+    authStates = const States(isLoading: true);
+    try {
+      print(userAuth.toNewUserJson());
+      final userCredential = await state.auth.signInWithEmailAndPassword(
+        email: userAuth.email!,
+        password: userAuth.password!,
+      );
+      final result = await fetchUserProfileInformation(
+        userCredential.user?.uid,
+      );
+      if (result == null) {
+        throw Exception(
+            'Something is wrong with the user profile information.');
+      }
+      LocalStorageService.instance.customer = result;
+      authStates = const States(isSuccess: true);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        authStates = const States(
+          isError: true,
+          messages: 'The password provided is too weak.',
+        );
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        authStates = const States(
+          isError: true,
+          messages: 'The account already exists for that email.',
+        );
+        print('The account already exists for that email.');
+      }
+    } catch (e, s) {
+      authStates = const States(
+        isError: true,
+        messages: 'Something went wrong. Please try again',
+      );
+      print(e);
+      print(s);
+    }
   }
 
   Future<String?> saveUserProfileInfo(UserAuthModel userAuth) async {
@@ -79,7 +117,16 @@ class FirebaseAuthServiceLogic extends GetxService {
   Future<CustomerModel?> fetchUserProfileInformation(
     String? id,
   ) async {
-    // TODO: implement fetchUserProfileInformation
+    try {
+      final users = state.fireStore.collection(CabConstants.users);
+      final userSnapshot = await users.doc(id).get();
+      final userSnapData = userSnapshot.data();
+      return CustomerModel.fromMap(userSnapData, id);
+    } catch (e, s) {
+      print(e);
+      print(s);
+      return null;
+    }
   }
 
   @override

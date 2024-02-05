@@ -18,7 +18,50 @@ class LoginControllerLogic extends GetxController {
   }
 
   void onLoginPressed() async {
-    // TODO: implement onLoginPressed
+    if (state.formKey.currentState?.validate() != true) {
+      return;
+    }
+    await authController.loginWithEmailAndPassword(state.authForm);
+    final states = authController.authStates;
+    if (states.isSuccess) {
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Signup'),
+          content: Text(states.messages ?? ''),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                  Get.offAllNamed(CabAppRoutes.cabDashboardScreen);
+                },
+                child: const Text('OK')),
+          ],
+        ),
+      );
+    } else if (states.isError) {
+      Get.dialog(
+        AlertDialog(
+          icon: CircleAvatar(
+              child: Icon(
+            Icons.cancel_outlined,
+            size: Get.height / 20,
+            color: Colors.redAccent,
+          )),
+          title: const Text('Login Failed'),
+          content: Text(states.messages ?? ''),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: const Text('OK')),
+          ],
+        ),
+      );
+    }
+    clearAuthStates();
   }
 
   @override

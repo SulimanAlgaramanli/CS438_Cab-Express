@@ -1,4 +1,4 @@
-import 'package:cab_express/controller/dashboard_controller/logic.dart';
+import 'package:cab_express/controller/customer_dashboard_controller/logic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,8 +10,8 @@ class CabDashboardScreen extends StatefulWidget {
 }
 
 class _CabDashboardScreenState extends State<CabDashboardScreen> {
-  final logic = DashboardControllerLogic.instance;
-  final state = DashboardControllerLogic.instance.state;
+  final logic = CustomerDashboardControllerLogic.instance;
+  final state = CustomerDashboardControllerLogic.instance.state;
 
   @override
   Widget build(BuildContext context) {

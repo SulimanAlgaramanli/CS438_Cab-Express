@@ -1,8 +1,9 @@
 import 'package:cab_express/data/models/app/car.model.dart';
 import 'package:cab_express/data/models/core/user.model.dart';
+import 'package:cab_express/utils/user_type.enum.dart';
 import 'package:flutter/foundation.dart';
 
-class DriverModel extends UserModel {
+class DriverModel extends BaseUserModel {
   final List<CarModel>? cars;
 
   const DriverModel({
@@ -38,5 +39,22 @@ class DriverModel extends UserModel {
       userType.hashCode ^
       cars.hashCode;
 
+  Map<String, dynamic> toMap() {
+    return {
+      'cars': cars,
+    };
+  }
+
+  factory DriverModel.fromMap(Map<String, dynamic>? map, String? id) {
+    return DriverModel(
+      id: id,
+      email: map?['email'],
+      firstName: map?['firstName'],
+      lastName: map?['lastName'],
+      phoneNumber: map?['phoneNumber'],
+      userType: UserType.values[map?['userType'] ?? 0],
+      cars: List.of(map?['cars']).map((e) => CarModel.fromMap(e)).toList(),
+    );
+  }
 //
 }

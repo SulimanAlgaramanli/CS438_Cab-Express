@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 
 import 'state.dart';
 
-class DashboardControllerLogic extends GetxController {
-  static DashboardControllerLogic get instance => Get.find();
-  final DashboardControllerState state = DashboardControllerState();
+class CustomerDashboardControllerLogic extends GetxController {
+  static CustomerDashboardControllerLogic get instance => Get.find();
+  final CustomerDashboardControllerState state = CustomerDashboardControllerState();
   final _states = const States().obs;
 
   States get profileStates => _states.value;

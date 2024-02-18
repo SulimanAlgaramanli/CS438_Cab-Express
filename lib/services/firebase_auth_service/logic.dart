@@ -1,7 +1,11 @@
 import 'package:cab_express/data/models/core/customer.model.dart';
+import 'package:cab_express/data/models/core/driver.model.dart';
+import 'package:cab_express/data/models/core/user.model.dart';
 import 'package:cab_express/data/models/core/user_auth.model.dart';
 import 'package:cab_express/global/cab_constants.dart';
+import 'package:cab_express/services/local_storage_service.dart';
 import 'package:cab_express/utils/states.dart';
+import 'package:cab_express/utils/user_type.enum.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +19,38 @@ class FirebaseAuthServiceLogic extends GetxService {
   States get authStates => _authStates.value;
 
   set authStates(States value) => _authStates.value = value;
+
+  Future<void> checkCurrentUserLoggedIn() async {
+    try {
+      final user = state.auth.currentUser;
+      if (user != null) {
+        final result = await fetchUserProfileInformation(user.uid);
+        if (result != null) {
+          // User is logged in and profile information is fetched
+          // Set the appropriate user type in LocalStorageService
+          switch (result) {
+            case CustomerModel():
+              LocalStorageService.instance.customer = result;
+              break;
+            case DriverModel():
+              LocalStorageService.instance.driver = result;
+              break;
+          }
+          authStates = const States(isSuccess: true);
+          return;
+        }
+      }
+      // No user logged in or profile information not fetched
+      authStates = const States(isError: true, messages: 'User not logged in');
+    } catch (e, s) {
+      authStates = const States(
+        isError: true,
+        messages: 'Error checking current user',
+      );
+      print(e);
+      print(s);
+    }
+  }
 
   Future<void> signUpWithEmailAndPassword(UserAuthModel userAuth) async {
     if (authStates.isLoading) return;
@@ -72,7 +108,14 @@ class FirebaseAuthServiceLogic extends GetxService {
         throw Exception(
             'Something is wrong with the user profile information.');
       }
-      LocalStorageService.instance.customer = result;
+      switch (result) {
+        case CustomerModel():
+          LocalStorageService.instance.customer = result;
+          break;
+        case DriverModel():
+          LocalStorageService.instance.driver = result;
+          break;
+      }
       authStates = const States(isSuccess: true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -114,14 +157,20 @@ class FirebaseAuthServiceLogic extends GetxService {
     }
   }
 
-  Future<CustomerModel?> fetchUserProfileInformation(
+  Future<BaseUserModel?> fetchUserProfileInformation(
     String? id,
   ) async {
     try {
       final users = state.fireStore.collection(CabConstants.users);
       final userSnapshot = await users.doc(id).get();
-      final userSnapData = userSnapshot.data();
-      return CustomerModel.fromMap(userSnapData, id);
+      final userData = userSnapshot.data();
+      if (userData?['userType'] case int ut) {
+        return switch (UserType.values[ut]) {
+          UserType.customer => CustomerModel.fromMap(userData, id),
+          UserType.driver => DriverModel.fromMap(userData, id),
+        };
+      }
+      throw Exception("Invalid user type.");
     } catch (e, s) {
       print(e);
       print(s);

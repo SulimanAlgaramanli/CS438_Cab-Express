@@ -1,6 +1,6 @@
 import 'package:cab_express/data/models/core/user.model.dart';
 
-class UserAuthModel extends UserModel {
+class UserAuthModel extends BaseUserModel {
   final String? password;
 
   const UserAuthModel({

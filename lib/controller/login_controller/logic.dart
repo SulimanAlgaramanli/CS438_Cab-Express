@@ -1,6 +1,7 @@
 import 'package:cab_express/routes/cab_app_routes.dart';
 import 'package:cab_express/services/firebase_auth_service/logic.dart';
 import 'package:cab_express/utils/states.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,7 +34,7 @@ class LoginControllerLogic extends GetxController {
             ElevatedButton(
                 onPressed: () {
                   Get.back();
-                  Get.offAllNamed(CabAppRoutes.cabDashboardScreen);
+                  Get.offAllNamed(CabAppRoutes.cabCustomerDashboardScreen);
                 },
                 child: const Text('OK')),
           ],

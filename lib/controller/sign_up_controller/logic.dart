@@ -33,7 +33,7 @@ class SignupControllerLogic extends GetxController {
             ElevatedButton(
                 onPressed: () {
                   Get.back();
-                  Get.offAllNamed(CabAppRoutes.cabDashboardScreen);
+                  Get.offAllNamed(CabAppRoutes.cabCustomerDashboardScreen);
                 },
                 child: const Text('OK')),
           ],

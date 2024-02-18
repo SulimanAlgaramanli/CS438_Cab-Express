@@ -3,8 +3,11 @@ import 'package:cab_express/data/models/core/user.model.dart';
 import 'package:cab_express/utils/user_type.enum.dart';
 import 'package:flutter/foundation.dart';
 
-class CustomerModel extends UserModel {
+class CustomerModel extends BaseUserModel {
   final List<LocationModel>? locations;
+
+  String? get fullName =>
+      firstName != null && lastName != null ? '$firstName $lastName' : null;
 
   const CustomerModel({
     super.id,
@@ -41,7 +44,7 @@ class CustomerModel extends UserModel {
 
   factory CustomerModel.fromMap(Map<String, dynamic>? map, String? id) {
     return CustomerModel(
-      locations: List.of(map?['locations']??[])
+      locations: List.of(map?['locations'] ?? [])
           .map((e) => LocationModel.fromMap(e))
           .toList(),
       id: id,

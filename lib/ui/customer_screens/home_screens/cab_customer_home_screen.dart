@@ -16,6 +16,7 @@ class CabCustomerHomeScreen extends StatefulWidget {
 
 class _CabCustomerHomeScreenState extends State<CabCustomerHomeScreen> {
   final logic = CustomerHomeScreenControllerLogic.instance;
+
   final state = CustomerHomeScreenControllerLogic.instance.state;
 
   @override
@@ -88,8 +89,9 @@ class _CabCustomerHomeScreenState extends State<CabCustomerHomeScreen> {
                     filledColor: Colors.white,
                     hintText: 'Your Location',
                     suffixIcon: hide
-                        ? const InkWell(
-                            child: Icon(
+                        ? InkWell(
+                            onTap: logic.onGetLocationPressed,
+                            child: const Icon(
                               Icons.gps_fixed,
                               color: Colors.blueAccent,
                             ),

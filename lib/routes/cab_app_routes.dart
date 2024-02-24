@@ -1,5 +1,6 @@
 import 'package:cab_express/cab_splash_screen.dart';
 import 'package:cab_express/controller/customer_dashboard_controller/binding.dart';
+import 'package:cab_express/controller/customer_home_screen_controller/binding.dart';
 import 'package:cab_express/controller/login_controller/binding.dart';
 import 'package:cab_express/controller/sign_up_controller/binding.dart';
 import 'package:cab_express/ui/auth_screens/cab_login_screen.dart';
@@ -30,7 +31,10 @@ class CabAppRoutes {
     GetPage(
       name: cabCustomerDashboardScreen,
       page: () => const CabCustomerHomeScreen(),
-      binding: const CustomerDashboardControllerBinding(),
+      bindings: const [
+        CustomerDashboardControllerBinding(),
+        CustomerHomeScreenControllerBinding(),
+      ],
     ),
     // GetPage(
     //   name: hrmsManageEmployeesScreen,

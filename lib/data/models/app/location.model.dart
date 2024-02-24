@@ -1,4 +1,6 @@
-class LocationModel{
+import 'package:latlong2/latlong.dart';
+
+class LocationModel {
   final int? id;
   final double? long;
   final double? lat;
@@ -8,6 +10,18 @@ class LocationModel{
     this.long,
     this.lat,
   });
+
+  LatLng? get toLatLng {
+    final lat = this.lat;
+    final long = this.long;
+    if (long != null && lat != null) {
+      return LatLng(lat, long);
+    }
+    print('LocationModel.toLatLng: unknown coordinates location.');
+    return null;
+  }
+
+  String get locationText => long != null && lat != null ? '$long/$lat' : '';
 
   @override
   bool operator ==(Object other) =>
@@ -23,17 +37,29 @@ class LocationModel{
 
   Map<String, dynamic> toMap() {
     return {
-      'id': this.id,
-      'long': this.long,
-      'lat': this.lat,
+      'id': id,
+      'long': long,
+      'lat': lat,
     };
   }
 
-  factory LocationModel.fromMap(Map<String, dynamic> map) {
+  factory LocationModel.fromMap(Map<String, dynamic>? map) {
     return LocationModel(
-      id: map['id'] as int,
-      long: map['long'] as double,
-      lat: map['lat'] as double,
+      id: map?['id'],
+      long: map?['long'],
+      lat: map?['lat'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "long": long,
+      "lat": lat,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'LocationModel{id: $id, long: $long, lat: $lat}';
   }
 }

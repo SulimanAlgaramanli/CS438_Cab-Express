@@ -1,9 +1,13 @@
 import 'package:cab_express/data/models/app/location.model.dart';
 import 'package:cab_express/ui/flutter_map_widget/map_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class CustomerHomeScreenControllerState {
+  final myPlacesLocations = <LocationModel>[].obs;
+  final fireStore = FirebaseFirestore.instance;
+  final tecNamePlace = TextEditingController();
   final _yourLocation = const LocationModel().obs;
   final _destinationLocation = const LocationModel().obs;
   final mapViewController = MapViewController();

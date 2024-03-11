@@ -6,6 +6,13 @@ import 'package:get/get.dart';
 class LocalStorageService extends GetxService {
   static LocalStorageService get instance => Get.find();
 
+  String? get userId {
+    return switch (userType) {
+      UserType.customer => customer.id,
+      UserType.driver => driver.id,
+    };
+  }
+
   final _userType = UserType.customer.obs;
 
   UserType get userType => _userType.value;
@@ -28,4 +35,12 @@ class LocalStorageService extends GetxService {
   }
 
   Future<void> init() async {}
+
+  void removeCustomer() {
+    _customer.value = const CustomerModel();
+  }
+
+  void removeDriver() {
+    _driver.value = const DriverModel();
+  }
 }

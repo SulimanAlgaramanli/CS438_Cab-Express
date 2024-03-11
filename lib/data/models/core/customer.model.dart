@@ -52,7 +52,7 @@ class CustomerModel extends BaseUserModel {
       firstName: map?['firstName'] as String,
       lastName: map?['lastName'] as String,
       phoneNumber: map?['phoneNumber'] as String,
-      userType: UserType.values[map?['userType'] ?? 0],
+      userType: UserType.customer,
     );
   }
 }

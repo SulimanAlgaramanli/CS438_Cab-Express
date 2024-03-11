@@ -1,4 +1,6 @@
 import 'package:cab_express/data/models/app/location.model.dart';
+import 'package:cab_express/global/cab_constants.dart';
+import 'package:cab_express/services/local_storage_service.dart';
 import 'package:cab_express/services/location_services_controller/location_services.dart';
 import 'package:cab_express/services/location_services_controller/logic.dart';
 import 'package:cab_express/ui/flutter_map_widget/map_widget.dart';
@@ -64,6 +66,7 @@ class CustomerHomeScreenControllerLogic extends GetxController {
   @override
   void onInit() {
     print('CustomerHomeScreenControllerLogic.onInit');
+    getMySavedPlaces();
     state.subscribeListener();
     super.onInit();
   }
@@ -84,7 +87,7 @@ class CustomerHomeScreenControllerLogic extends GetxController {
 
   void onDirectionPressed() async {
     state.mapViewController.direction = true;
-   await onGetLocationPressed();
+    await onGetLocationPressed();
   }
 
   void cancelDirection() {
@@ -96,6 +99,40 @@ class CustomerHomeScreenControllerLogic extends GetxController {
     state.tecYourLocation.clear();
     state.tecDestinationLocation.clear();
     state.mapViewController.removeMarker();
+  }
+
+  Future<void> savedMyPlace(LocationModel myLocation) async {
+    try {
+      print('CustomerHomeScreenControllerLogic.savedMyPlace');
+      print('start saved my location');
+      final myLocations = state.fireStore.collection(CabConstants.savedPlaces);
+      final customerId = LocalStorageService.instance.userId;
+      if (customerId != null) {
+        print('saved my location');
+
+        final myPlaces =
+        myLocations.doc(customerId).collection(CabConstants.myPlaces);
+        print('get my place collection');
+
+        await myPlaces.add(myLocation.toMyPlaceJson());
+        getMySavedPlaces();
+
+        print('my place is saved');
+      } else {
+        throw Exception("No Customer Id found.");
+      }
+    } catch (e, s) {
+      print(e);
+      print(s);
+    }
+  }
+
+  void getMySavedPlaces() async {
+    // TODO: this is not implemented in the current implementation of the application
+  }
+
+  void onMyPlaceSelected(LocationModel place) {
+    // TODO: this is not implemented in the current implementation of the application
   }
 
   @override

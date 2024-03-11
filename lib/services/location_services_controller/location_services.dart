@@ -14,10 +14,12 @@ class LocationService {
     double? endLongitude,
   }) {
     double distance = 0.0;
-    if (startLatitude != null &&
+    if (
+        startLatitude != null &&
         startLongitude != null &&
         endLatitude != null &&
-        endLongitude != null) {
+        endLongitude != null
+    ) {
       distance = geoloc.Geolocator.distanceBetween(
         startLatitude,
         startLongitude,
@@ -67,8 +69,8 @@ class LocationService {
 
   Future<bool> changeSettings(
       {LocationAccuracy accuracy = LocationAccuracy.high,
-      int interval = 1000,
-      double distanceFilter = 0}) async {
+        int interval = 1000,
+        double distanceFilter = 0}) async {
     try {
       return await _location.changeSettings(
         accuracy: accuracy,

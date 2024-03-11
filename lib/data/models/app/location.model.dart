@@ -1,11 +1,13 @@
 import 'package:latlong2/latlong.dart';
 
 class LocationModel {
-  final int? id;
+  final String? id;
+  final String? name;
   final double? long;
   final double? lat;
 
   const LocationModel({
+    this.name,
     this.id,
     this.long,
     this.lat,
@@ -29,15 +31,17 @@ class LocationModel {
       other is LocationModel &&
           runtimeType == other.runtimeType &&
           id == other.id &&
+          name == other.name &&
           long == other.long &&
           lat == other.lat;
 
   @override
-  int get hashCode => id.hashCode ^ long.hashCode ^ lat.hashCode;
+  int get hashCode =>
+      id.hashCode ^ long.hashCode ^ name.hashCode ^ lat.hashCode;
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMyPlaceJson() {
     return {
-      'id': id,
+      'name': name,
       'long': long,
       'lat': lat,
     };
@@ -46,6 +50,7 @@ class LocationModel {
   factory LocationModel.fromMap(Map<String, dynamic>? map) {
     return LocationModel(
       id: map?['id'],
+      name: map?['name'],
       long: map?['long'],
       lat: map?['lat'],
     );
@@ -60,6 +65,20 @@ class LocationModel {
 
   @override
   String toString() {
-    return 'LocationModel{id: $id, long: $long, lat: $lat}';
+    return 'LocationModel{id: $id, name: $name, long: $long, lat: $lat}';
+  }
+
+  LocationModel copyWith({
+    String? id,
+    String? name,
+    double? long,
+    double? lat,
+  }) {
+    return LocationModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      long: long ?? this.long,
+      lat: lat ?? this.lat,
+    );
   }
 }

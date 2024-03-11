@@ -4,7 +4,6 @@ import 'package:latlong2/latlong.dart';
 
 class MapViewController extends ChangeNotifier {
   MapViewController() {
-    // markers.addAll([_marker]);
     notifyListeners();
   }
 

@@ -38,19 +38,20 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final btn = _getButtonStyle(context);
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: style?.copyWith(
             padding: btn?.padding,
             backgroundColor: btn?.backgroundColor,
             overlayColor: btn?.overlayColor,
           ) ??
           btn,
-      child: Text(
-        'Save',
-        style: context.textTheme.labelLarge?.copyWith(
-          color: Colors.white,
-        ),
-      ),
+      child: child ??
+          Text(
+            'Save',
+            style: context.textTheme.labelLarge?.copyWith(
+              color: Colors.white,
+            ),
+          ),
     );
   }
 }

@@ -79,7 +79,7 @@ class UserAuthModel extends BaseUserModel {
       "firstName": firstName,
       "lastName": lastName,
       "phoneNumber": phoneNumber,
-      "userType": userType,
+      "userType": 0,
     };
   }
 }

@@ -21,13 +21,12 @@ class FirebaseAuthServiceLogic extends GetxService {
   set authStates(States value) => _authStates.value = value;
 
   Future<void> checkCurrentUserLoggedIn() async {
+    print('FirebaseAuthServiceLogic.checkCurrentUserLoggedIn: ABCDEFGHIGK');
     try {
       final user = state.auth.currentUser;
       if (user != null) {
         final result = await fetchUserProfileInformation(user.uid);
         if (result != null) {
-          // User is logged in and profile information is fetched
-          // Set the appropriate user type in LocalStorageService
           switch (result) {
             case CustomerModel():
               LocalStorageService.instance.customer = result;
@@ -40,7 +39,6 @@ class FirebaseAuthServiceLogic extends GetxService {
           return;
         }
       }
-      // No user logged in or profile information not fetched
       authStates = const States(isError: true, messages: 'User not logged in');
     } catch (e, s) {
       authStates = const States(
@@ -165,6 +163,7 @@ class FirebaseAuthServiceLogic extends GetxService {
       final userSnapshot = await users.doc(id).get();
       final userData = userSnapshot.data();
       if (userData?['userType'] case int ut) {
+        print('FirebaseAuthServiceLogic.fetchUserProfileInformation: $ut');
         return switch (UserType.values[ut]) {
           UserType.customer => CustomerModel.fromMap(userData, id),
           UserType.driver => DriverModel.fromMap(userData, id),
@@ -177,7 +176,21 @@ class FirebaseAuthServiceLogic extends GetxService {
       return null;
     }
   }
-
+  Future<void> logout() async {
+    try {
+      await state.auth.signOut();
+      LocalStorageService.instance.removeCustomer();
+      LocalStorageService.instance.removeDriver();
+      authStates = const States(isSuccess: true);
+    } catch (e, s) {
+      authStates = const States(
+        isError: true,
+        messages: 'Error logging out. Please try again.',
+      );
+      print(e);
+      print(s);
+    }
+  }
   @override
   void onClose() {
     // TODO: implement onClose

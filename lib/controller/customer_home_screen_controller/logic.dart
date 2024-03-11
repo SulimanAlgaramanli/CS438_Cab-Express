@@ -111,7 +111,7 @@ class CustomerHomeScreenControllerLogic extends GetxController {
         print('saved my location');
 
         final myPlaces =
-        myLocations.doc(customerId).collection(CabConstants.myPlaces);
+            myLocations.doc(customerId).collection(CabConstants.myPlaces);
         print('get my place collection');
 
         await myPlaces.add(myLocation.toMyPlaceJson());
@@ -128,11 +128,38 @@ class CustomerHomeScreenControllerLogic extends GetxController {
   }
 
   void getMySavedPlaces() async {
-    // TODO: this is not implemented in the current implementation of the application
+    try {
+      final myLocations = state.fireStore.collection(CabConstants.savedPlaces);
+      final customerId = LocalStorageService.instance.userId;
+      if (customerId != null) {
+        final myPlacesCol = myLocations.doc(customerId).collection(
+              CabConstants.myPlaces,
+            );
+        final myPlaces = await myPlacesCol.get();
+        state.myPlacesLocations.value = myPlaces.docs
+            .map(
+              (e) => LocationModel.fromMap(e.data()).copyWith(
+                id: e.id,
+              ),
+            )
+            .toList();
+      }
+    } catch (e, s) {
+      print(e);
+      print(s);
+    }
   }
 
   void onMyPlaceSelected(LocationModel place) {
-    // TODO: this is not implemented in the current implementation of the application
+    final latLong = place.toLatLng;
+    if (latLong == null) return;
+    state.mapViewController.yourLocationMarker = Marker(
+      point: latLong,
+      child: MapViewController.placeIcon,
+    );
+    state.tecYourLocation.text = place.locationText;
+    state.yourLocation = place;
+    calculateDistanceBetween();
   }
 
   @override
